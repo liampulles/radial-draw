@@ -24,7 +24,7 @@ type args struct {
 
 func parseArgs() args {
 	out := flag.String("out", "radial.png", "Location of PNG to write")
-	width := flag.Int("width", 2048, "width of the image (square dimensions)")
+	width := flag.Int("width", 1024, "width of the image (square dimensions)")
 	space := flag.Float64("space", 5.0, "spacing factor")
 	flag.Parse()
 	return args{

@@ -17,11 +17,19 @@ func DrawRadial(out string, width int, spaceFactor float64) error {
 	// Draw rays
 	fullCircle := 2 * math.Pi
 	originDisp := 0.0
-	for i := 0.0; originDisp < float64(width); i++ {
-		rayAngle := fullCircle / math.Pow(2, i+2)
+	fWidth := float64(width)
+	maxLen := math.Sqrt(2 * fWidth * fWidth)
+	// Keep iterating until we start drawing lines outside the screen
+	for i := 0; originDisp < maxLen; i++ {
+		rayAngle := fullCircle / math.Pow(2, float64(i+2))
 		originDisp = spaceFactor / math.Tan(rayAngle)
-		// originDisp := 10.0
-		for theta := 0.0; theta < fullCircle; theta += rayAngle {
+		theta := 0.0
+		for j := 0; theta < fullCircle; j++ {
+			theta += rayAngle
+			// Skip previously drawn lines
+			if j%2 == 0 {
+				continue
+			}
 			drawRay(dc, width, theta, originDisp)
 		}
 	}
@@ -33,7 +41,7 @@ func DrawRadial(out string, width int, spaceFactor float64) error {
 // Draw a ray from the center out to "infinity", at an angle and displaced by an amount.
 func drawRay(dc *gg.Context, width int, theta float64, originDisp float64) {
 	fWidth := float64(width)
-	origin := float64(width) / 2.0
+	origin := fWidth / 2.0
 	sinT := math.Sin(theta)
 	cosT := math.Cos(theta)
 	startX := origin + (originDisp * sinT)
