@@ -14,7 +14,7 @@ build:
 install: build
 	go install ./...
 run: install
-	raddraw
+	raddraw -iter 2
 inspect: build $(GOBIN)/golangci-lint
 	golangci-lint run
 update:

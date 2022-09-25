@@ -10,7 +10,7 @@ import (
 
 func main() {
 	args := parseArgs()
-	if err := radialdraw.DrawRadial(args.Out, args.Width, args.Iter); err != nil {
+	if err := radialdraw.DrawRadial(args.Out, args.Width, args.Space); err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err.Error())
 		os.Exit(1)
 	}
@@ -19,16 +19,17 @@ func main() {
 type args struct {
 	Out   string
 	Width int
-	Iter  int
+	Space float64
 }
 
 func parseArgs() args {
 	out := flag.String("out", "radial.png", "Location of PNG to write")
-	width := flag.Int("width", 1024, "width of the image (square dimensions)")
-	iter := flag.Int("iter", 10, "number of iterations")
+	width := flag.Int("width", 2048, "width of the image (square dimensions)")
+	space := flag.Float64("space", 5.0, "spacing factor")
+	flag.Parse()
 	return args{
 		Out:   *out,
 		Width: *width,
-		Iter:  *iter,
+		Space: *space,
 	}
 }
