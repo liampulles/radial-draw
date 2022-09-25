@@ -8,7 +8,7 @@ import (
 
 // Draw a square image with a radial pattern to the PNG file with name
 // given by out. Try it out!
-func DrawRadial(out string, width int, spaceFactor float64) error {
+func DrawRadial(out string, width int, spaceFactor float64, lineWidth float64) error {
 	// Init and draw background
 	dc := gg.NewContext(width, width)
 	dc.SetRGB(0, 0, 0)
@@ -30,7 +30,7 @@ func DrawRadial(out string, width int, spaceFactor float64) error {
 			if j%2 == 0 {
 				continue
 			}
-			drawRay(dc, width, theta, originDisp)
+			drawRay(dc, width, theta, originDisp, lineWidth)
 		}
 	}
 
@@ -39,7 +39,7 @@ func DrawRadial(out string, width int, spaceFactor float64) error {
 }
 
 // Draw a ray from the center out to "infinity", at an angle and displaced by an amount.
-func drawRay(dc *gg.Context, width int, theta float64, originDisp float64) {
+func drawRay(dc *gg.Context, width int, theta float64, originDisp float64, lineWidth float64) {
 	fWidth := float64(width)
 	origin := fWidth / 2.0
 	sinT := math.Sin(theta)
@@ -50,7 +50,7 @@ func drawRay(dc *gg.Context, width int, theta float64, originDisp float64) {
 	endY := origin - (fWidth * cosT)
 
 	dc.SetRGBA(1.0, 1.0, 1.0, 1.0)
-	dc.SetLineWidth(2.0)
+	dc.SetLineWidth(lineWidth)
 	dc.DrawLine(startX, startY, endX, endY)
 	dc.Stroke()
 }
